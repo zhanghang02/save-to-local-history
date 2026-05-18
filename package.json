@@ -1,0 +1,142 @@
+{
+  "name": "save-to-local-history",
+  "displayName": "Save to Local History",
+  "description": "Manually save workspace changes to Local History before AI edits, commits, or risky operations.",
+  "version": "0.2.0",
+  "publisher": "waterblue",
+  "author": {
+    "name": "waterblue"
+  },
+  "license": "MIT-0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhanghang02/save-to-local-history.git"
+  },
+  "homepage": "https://github.com/zhanghang02/save-to-local-history#readme",
+  "bugs": {
+    "url": "https://github.com/zhanghang02/save-to-local-history/issues"
+  },
+  "icon": "icon.png",
+  "files": [
+    "extension.js",
+    "activity-icon.svg",
+    "icon.svg",
+    "icon.png",
+    "package.json",
+    "README.md",
+    "LICENSE.txt"
+  ],
+  "engines": {
+    "vscode": "^1.42.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "vscode",
+    "vs code",
+    "compatible editor",
+    "local history",
+    "snapshot",
+    "backup",
+    "ai coding",
+    "save changes"
+  ],
+  "extensionDependencies": [
+    "xyz.local-history"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "scripts": {
+    "package": "vsce package --no-dependencies",
+    "publish:openvsx": "ovsx publish --skip-duplicate",
+    "verify": "npm run package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.9.1",
+    "ovsx": "^0.10.12"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "saveToLocalHistory.installDependency",
+        "title": "Save to Local History: Install Local History Dependency"
+      },
+      {
+        "command": "saveToLocalHistory.snapshotGitChanges",
+        "title": "Save to Local History: Snapshot Git Changes"
+      },
+      {
+        "command": "saveToLocalHistory.previewGitChanges",
+        "title": "Save to Local History: Preview Git Changes"
+      },
+      {
+        "command": "saveToLocalHistory.configureWorkspace",
+        "title": "Save to Local History: Configure Workspace Local History"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "saveToLocalHistory",
+          "title": "Save to Local History",
+          "icon": "activity-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "saveToLocalHistory": [
+        {
+          "id": "saveToLocalHistory.view",
+          "name": "Save to Local History"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "saveToLocalHistory.installDependency",
+          "when": "view == saveToLocalHistory.view",
+          "group": "navigation@0"
+        },
+        {
+          "command": "saveToLocalHistory.snapshotGitChanges",
+          "when": "view == saveToLocalHistory.view",
+          "group": "navigation@1"
+        },
+        {
+          "command": "saveToLocalHistory.previewGitChanges",
+          "when": "view == saveToLocalHistory.view",
+          "group": "navigation@2"
+        },
+        {
+          "command": "saveToLocalHistory.configureWorkspace",
+          "when": "view == saveToLocalHistory.view",
+          "group": "navigation@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Save to Local History",
+      "properties": {
+        "saveToLocalHistory.statusBar.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to show the Save to Local History status bar button."
+        },
+        "saveToLocalHistory.statusBar.text": {
+          "type": "string",
+          "default": "$(history) Save->History",
+          "description": "Text shown in the status bar button."
+        },
+        "saveToLocalHistory.snapshot.includeExcluded": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether snapshot should include files excluded by local-history.exclude."
+        }
+      }
+    }
+  }
+}
