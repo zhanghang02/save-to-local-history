@@ -53,13 +53,15 @@ When installed from a compatible marketplace, `xyz.local-history` is declared as
 
 ## Install
 
-Install from Open VSX:
+Install from Open VSX or a VS Code-compatible editor marketplace that uses Open VSX:
 
 ```powershell
 code --install-extension waterblue.save-to-local-history
 ```
 
 If your editor uses a different command-line executable, replace `code` with that executable.
+
+This extension is currently published on Open VSX. It will only appear in the Microsoft Visual Studio Marketplace after it is published there separately.
 
 You can also download the VSIX from Open VSX and install it manually:
 
@@ -90,6 +92,30 @@ $env:OVSX_PAT = "<your-open-vsx-token>"
 npm run publish:openvsx -- --pat $env:OVSX_PAT
 ```
 
+## Release Workflow
+
+Pull requests and pushes to `main` run GitHub Actions to install dependencies and package the extension.
+
+Version tags such as `v0.2.1` also create a GitHub release and publish the packaged VSIX to Open VSX. The repository secret `OVSX_PAT` must be configured before tag-based publishing can work.
+
+Configure the repository secret with GitHub CLI:
+
+```powershell
+$env:OVSX_PAT = "<your-open-vsx-token>"
+gh secret set OVSX_PAT --repo zhanghang02/save-to-local-history --body $env:OVSX_PAT
+```
+
+Recommended release flow:
+
+```powershell
+npm version patch --no-git-tag-version
+npm run package
+git add package.json package-lock.json CHANGELOG.md
+git commit -m "chore: release v0.2.1"
+git tag v0.2.1
+git push origin main v0.2.1
+```
+
 ## Notes
 
 This extension is not a replacement for Git. It works as an additional local safety checkpoint alongside Git and Local History.
@@ -109,6 +135,18 @@ Save to Local History 是一个适用于 VS Code 兼容编辑器的轻量扩展�
 - Open VSX：<https://open-vsx.org/extension/waterblue/save-to-local-history>
 - GitHub：<https://github.com/zhanghang02/save-to-local-history>
 - 前置依赖：<https://open-vsx.org/extension/xyz/local-history>
+
+## 安装
+
+可以从 Open VSX，或使用 Open VSX 的 VS Code 兼容编辑器扩展市场中安装：
+
+```powershell
+code --install-extension waterblue.save-to-local-history
+```
+
+如果你的编辑器使用不同的命令行名称，请把 `code` 替换成对应命令。
+
+本扩展当前发布在 Open VSX。只有单独发布到 Microsoft Visual Studio Marketplace 后，才会出现在 VS Code 官方扩展市场中。
 
 ## 使用前提
 
